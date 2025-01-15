@@ -1,0 +1,104 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="black_wall_with_red_dots">
+    <!-- Define the black wall -->
+    <link name="black_wall">
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.5 0.5 0.025</size>  <!-- Wall of size 0.5x0.5 meters with a thickness of 0.025 meters -->
+          </box>
+        </geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>  <!-- Black color -->
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>0.5 0.5 0.025</size>
+          </box>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Add four red dots on the black wall -->
+    <link name="dot1">
+      <visual name="red_dot">
+        <geometry>
+          <sphere>
+            <radius>0.025</radius>  <!-- Small red dot with a radius of 0.0125 meters -->
+          </sphere>
+        </geometry>
+        <material>
+          <ambient>1 0 0 1</ambient>  <!-- Red color -->
+          <diffuse>1 0 0 1</diffuse>
+        </material>
+      </visual>
+      <pose>0.125 0.125 0.025 0 0 0</pose> <!-- Position of the first dot -->
+    </link>
+
+    <link name="dot2">
+      <visual name="red_dot">
+        <geometry>
+          <sphere>
+            <radius>0.025</radius>
+          </sphere>
+        </geometry>
+        <material>
+          <ambient>1 0 0 1</ambient>  <!-- Red color -->
+          <diffuse>1 0 0 1</diffuse>
+        </material>
+      </visual>
+      <pose>-0.125 0.125 0.025 0 0 0</pose> <!-- Position of the second dot -->
+    </link>
+
+    <link name="dot3">
+      <visual name="red_dot">
+        <geometry>
+          <sphere>
+            <radius>0.025</radius>
+          </sphere>
+        </geometry>
+        <material>
+          <ambient>1 0 0 1</ambient>  <!-- Red color -->
+          <diffuse>1 0 0 1</diffuse>
+        </material>
+      </visual>
+      <pose>0.125 -0.125 0.025 0 0 0</pose> <!-- Position of the third dot -->
+    </link>
+
+    <link name="dot4">
+      <visual name="red_dot">
+        <geometry>
+          <sphere>
+            <radius>0.025</radius>
+          </sphere>
+        </geometry>
+        <material>
+          <ambient>1 0 0 1</ambient>  <!-- Red color -->
+          <diffuse>1 0 0 1</diffuse>
+        </material>
+      </visual>
+      <pose>-0.125 -0.125 0.025 0 0 0</pose> <!-- Position of the fourth dot -->
+    </link>
+
+    <link name="blue_ball">
+      <visual name="blue_ball_visual">
+        <geometry>
+          <sphere>
+            <radius>0.05</radius>  <!-- Blue ball with a radius of 0.05 meters -->
+          </sphere>
+        </geometry>
+        <material>
+          <ambient>0 0 1 1</ambient>  <!-- Blue color -->
+          <diffuse>0 0 1 1</diffuse>
+        </material>
+      </visual>
+      <pose>0 0 0.05 0 0 0</pose> <!-- Position of the blue ball in the center -->
+    </link>
+
+
+  </model>
+</sdf>

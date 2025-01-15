@@ -1,0 +1,17 @@
+<launch>
+    <!-- 定义 publish_rate 参数，并设置默认值为 10.0 -->
+    <arg name="publish_rate" default="10.0" />
+
+    <!-- 设置参数 -->
+    <param name="publish_rate" type="double" value="$(arg publish_rate)" />
+
+    <!-- 启动 detection_subscriber.py 节点 -->
+    <node name="mpc_detect" pkg="ibvs" type="mpc_detect.py" output="screen" />
+
+    <!-- 启动 detection_publisher.py 节点 -->
+    <node name="mpc_control" pkg="ibvs" type="mpc_control2.py" output="screen">
+        <param name="rate" value="$(arg publish_rate)" />
+    </node>
+
+    
+</launch>

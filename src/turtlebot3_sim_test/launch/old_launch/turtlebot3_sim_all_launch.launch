@@ -1,0 +1,14 @@
+<launch>
+    <arg name="map" default="map2.yaml" />
+
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find turtlebot3_sim_test)/maps/$(arg map)"/>
+
+    <include file="$(find turtlebot3_sim_test)/launch/turtlebot3_sim_amcl.launch" />
+
+    <include file="$(find turtlebot3_sim_test)/launch/turtlebot3_sim_move_base.launch" />
+
+    <include file="$(find turtlebot3_sim_test)/launch/turtlebot3_sim_rviz.launch" />
+
+    <include file="$(find turtlebot3_sim_test)/launch/small_house.launch" />
+
+</launch>
