@@ -1,13 +1,16 @@
 ### Introduction
+
 本仓库提供了三个仿真，基于turtlebot3+gazebo：
 基于控制律的单特征仿真：ibvs_single.py，
 基于控制律的多特征仿真：ibvs_multi.py,
 基于MPC的多特征仿真：mpc_control2.py、mpc_detect.py
 
 ### IBVS by ControlLaw
+
 **单特征**
+
 **(1)**
-视觉伺服的目标是让归一化图像坐标系下特征点的误差$\boldsymbol{e}$以指数形式收敛：
+视觉伺服的目标是让归一化图像坐标系下特征点的误差$`\boldsymbol{e}`$以指数形式收敛：
 
 $$
 \boldsymbol{\dot{e}}=\bigg[ \begin{matrix}
@@ -84,7 +87,7 @@ $$
  = \boldsymbol{L}\boldsymbol{{^{cam}X_{car}}}\boldsymbol{J} \mathcal{V_{car_2}}
 $$
 
-其中$\boldsymbol{J}$用于筛选平面上的运动，即$v_x$和$\omega_z$：
+其中$`\boldsymbol{J}`$用于筛选平面上的运动，即$`v_x`$和$`\omega_z`$：
 
 $$
 \boldsymbol{J} = \begin{bmatrix}
@@ -109,7 +112,7 @@ $$
 \end{bmatrix}
 $$
 
-其中$\boldsymbol{R},\boldsymbol{t}$ 来自 $\boldsymbol{^{cam}T_{car}}$。
+其中$`\boldsymbol{R},\boldsymbol{t}`$ 来自 $`\boldsymbol{^{cam}T_{car}}`$。
 令：
 
 $$
@@ -119,7 +122,7 @@ $$
 联合(1)得到最终输出：
 
 $$
-\mathcal{V}_{car_2} = -k\boldsymbol{M^{-1}}\boldsymbol{F}\boldsymbol{e_{uv}}
+\mathcal{V_{car_2}} = -k\boldsymbol{M^{-1}}\boldsymbol{F}\boldsymbol{e_{uv}}
 $$
 
 **多特征**
@@ -149,10 +152,10 @@ $$
 $$
 
 $$
-\mathcal{V}_{car_2} = -k\boldsymbol{M^{+}}\boldsymbol{F}\boldsymbol{e_{uv}}
+\mathcal{V_{car_2}} = -k\boldsymbol{M^{+}}\boldsymbol{F}\boldsymbol{e_{uv}}
 $$
 
-$\boldsymbol{M^{+}}$为Moore Penrose伪逆:
+$`\boldsymbol{M^{+}}`$为Moore Penrose伪逆:
 
 $$
 \boldsymbol{M^{+}} \in \mathbb{R}^{2 \times 8}
@@ -198,6 +201,7 @@ source devel/setup.bash
 roslaunch visual_servo gazebo_pioneer_servo.launch
 ```
 **3 启动控制器：**
+
 打开另外一个终端:
 ```
 rosrun ibvs ibvs_single.py 
