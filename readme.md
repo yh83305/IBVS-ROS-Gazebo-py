@@ -8,6 +8,7 @@
 **单特征**
 **(1)**
 视觉伺服的目标是让归一化图像坐标系下特征点的误差$\boldsymbol{e}$以指数形式收敛：
+
 $$
 \boldsymbol{\dot{e}}=\bigg[ \begin{matrix}
 \dot{x}\\
@@ -20,11 +21,13 @@ y - y_d\\
 $$
 
 根据相机模型，相机内参和成像关系为：
+
 $$
 x = \frac{u - c_x}{f_x}, \quad y = \frac{v - c_y}{f_y}
 $$
 
 代入后得到像素坐标系下特征点的误差变化率：
+
 $$
 \boldsymbol{\dot{e}} =
 \bigg[ \begin{matrix}
@@ -51,11 +54,13 @@ $$
 
 **(2)**
 图像雅可比的定义:
+
 $$
 \boldsymbol{\dot{e}}=\boldsymbol{L}\mathcal{V_{cam}}
 $$
 
 其中：
+
 $$
 \mathcal{V_{cam}}=
 \begin{bmatrix}
@@ -73,12 +78,14 @@ v_z\\
 $$
 
 由相机与底盘的位置关系可知：
+
 $$
 \boldsymbol{\dot{e}} = \boldsymbol{L}\mathcal{V_{cam}} = \boldsymbol{L}\boldsymbol{{^{cam}X_{car}}}\mathcal{V_{car}}
  = \boldsymbol{L}\boldsymbol{{^{cam}X_{car}}}\boldsymbol{J} \mathcal{V_{car_2}}
 $$
 
 其中$\boldsymbol{J}$用于筛选平面上的运动，即$v_x$和$\omega_z$：
+
 $$
 \boldsymbol{J} = \begin{bmatrix}
 1 & 0\\
@@ -104,16 +111,19 @@ $$
 
 其中$\boldsymbol{R},\boldsymbol{t}$ 来自 $\boldsymbol{^{cam}T_{car}}$。
 令：
+
 $$
 \boldsymbol{M} = \boldsymbol{L}\boldsymbol{{^{cam}X_{car}}}\boldsymbol{J} , \boldsymbol{M} \in \mathbb{R}^{2 \times 2}
 $$
 
 联合(1)得到最终输出：
+
 $$
 \mathcal{V}_{car_2} = -k\boldsymbol{M^{-1}}\boldsymbol{F}\boldsymbol{e_{uv}}
 $$
 
 **多特征**
+
 $$
 \boldsymbol{L} = \begin{bmatrix}
 \boldsymbol{L_1}\\
@@ -143,6 +153,7 @@ $$
 $$
 
 $\boldsymbol{M^{+}}$为Moore Penrose伪逆:
+
 $$
 \boldsymbol{M^{+}} \in \mathbb{R}^{2 \times 8}
 $$
@@ -150,6 +161,7 @@ $$
 ### IBVS by MPC
 
 Cost Function:
+
 $$
 \min_{u_{k|k}, \dots, u_{k+N_p-1|k}} J(u) = \sum_{i=k+1}^{k+N_p} e_{i|k}^T Q e_{i|k} + u_{i|k}^T R u_{i|k}
 $$
