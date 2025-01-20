@@ -20,20 +20,14 @@ class MPCController:
         self.image_height = 480
         self.K = np.array([[self.fx, 0, self.cx], [0, self.fy, self.cy], [0, 0, 1]])
 
-        self.F = np.zeros((8, 8))
-        for i in range(0, 8, 2): 
-            self.F[i, i] = self.fx
-        for i in range(1, 8, 2):
-            self.F[i, i] = self.fy
+        self.Q = 100 * np.eye(8)
+        self.R = 1 * np.eye(2)
+        self.K = 1000
 
-        self.F_inv = np.linalg.inv(self.F)
-
-        self.Q = 10 * np.eye(8)  # 加权矩阵 (8x8单位矩阵)
-        self.R = 1 * np.eye(2)  # 正则化权重
-        self.Np = 4
+        self.Np = 5
         self.Ts = 0.1
-        self.tau_last = np.full((2, 1), 0.1)
 
+        self.tau_seq_last = np.full((self.Np*2, 1), 0.1)
         self.desired_uv = np.array([
                                     [254],
                                     [283],
@@ -95,6 +89,18 @@ class MPCController:
         L = np.vstack(Ls)
         return L
 
+    def calculate_squared_difference(self, xy_vec):
+
+        xy_matrix = xy_vec.reshape(-1, 2)
+        y = xy_matrix[:, 1]
+
+        diff1 = np.abs(y[0] - y[2])
+        diff2 = np.abs(y[1] - y[3])
+
+        result = (1 - diff1/diff2) ** 2
+
+        return result
+
     def mpc_controller(self):
         if self.xy_vector is None or self.Z is None:
             return
@@ -131,16 +137,18 @@ class MPCController:
                 Ls = self.interaction_matrix(xy_vector_pred, Z)
                 tau = tau_seq[2*i:2*(i+1)].reshape(-1, 1)
                 xy_vector_pred = xy_vector_pred + self.Ts * (Ls @ tau)
-                e = xy_vector_pred - self.desired_xy
-                J1 += e.T @ self.Q @ e
+
+                if i == self.Np-1:
+                    e = xy_vector_pred - self.desired_xy
+                    J1 = e.T @ self.Q @ e
+                
                 J2 += tau.T @ self.R @ tau
             
             J = J1 + J2
-            print(J1, J2)
             return J
 
-        # 初始猜测 (2*Np 维向量)
-        tau_seq0 = np.tile(self.tau_last, self.Np)
+        # 初始猜测
+        tau_seq0 = self.tau_seq_last
 
         constraints = [
             {'type': 'ineq', 'fun': fov_constraints, 'args': (self.xy_vector, self.Z)},
@@ -153,7 +161,8 @@ class MPCController:
         res = minimize(cost_function, tau_seq0, args=(self.xy_vector, self.Z), method='SLSQP', constraints=constraints, options={'maxiter': 500, 'ftol': 1e-6})
 
         tau = res.x[:2]
-        self.tau_last = tau
+        self.tau_seq_last = res.x
+
         self.publish_twist(tau)
         rospy.loginfo("twist_wv: linear_x = %f, angular_z = %f", tau[0], tau[1])
 

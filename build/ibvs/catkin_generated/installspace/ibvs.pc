@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/Desktop/ibvs_ws/install
+
+Name: ibvs
+Description: Description of ibvs
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: message_runtime

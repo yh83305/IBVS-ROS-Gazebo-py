@@ -1,0 +1,2 @@
+ibvs:turtlebot3_sim_test
+-DCATKIN_DEVEL_PREFIX=/home/ubuntu/Desktop/ibvs_ws/devel -DCMAKE_INSTALL_PREFIX=/home/ubuntu/Desktop/ibvs_ws/install -G Unix Makefiles
