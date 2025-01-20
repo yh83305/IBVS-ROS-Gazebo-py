@@ -21,10 +21,11 @@ class MPCController:
         self.K = np.array([[self.fx, 0, self.cx], [0, self.fy, self.cy], [0, 0, 1]])
 
         self.Q = 100 * np.eye(8)
-        self.R = 1 * np.eye(2)
+        self.R = 1 * np.array([[1,0],
+                               [0,0.1]])
         self.K = 1000
 
-        self.Np = 5
+        self.Np = 10
         self.Ts = 0.1
 
         self.tau_seq_last = np.full((self.Np*2, 1), 0.1)
